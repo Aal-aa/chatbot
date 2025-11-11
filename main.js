@@ -34,60 +34,73 @@
         `;
 
         // Add Font Awesome
-        const style = document.createElement('link');
-        style.rel = 'stylesheet';
-        style.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
+        const style = document.createElement("link");
+        style.rel = "stylesheet";
+        style.href =
+          "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css";
         document.head.appendChild(style);
-        document.body.insertAdjacentHTML('beforeend', chatbotHTML);
+        document.body.insertAdjacentHTML("beforeend", chatbotHTML);
 
         // Inject CSS
-        const css = document.createElement('style');
+        const css = document.createElement("style");
         css.textContent = `
-          body{font-family:'Poppins',sans-serif;}
-          #chatbot-float-btn{position:fixed;bottom:25px;right:25px;width:60px;height:60px;border-radius:50%;background:#4D98E2;color:#fff;border:none;font-size:26px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;transition:0.3s;z-index:1000;}
-          #chatbot-container{position:fixed;bottom:100px;right:25px;width:100%;max-width:420px;height:75vh;background:#F5F5F6;border-radius:20px;box-shadow:0 2px 14px rgba(0,0,0,0.15);display:none;flex-direction:column;overflow:hidden;z-index:999;}
-          #chatbot-header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;}
-          #chatbot-close-btn{background:none;border:none;cursor:pointer;font-size:18px;}
-          #chatbot-messages{flex-grow:1;padding:20px;overflow-y:auto;}
-          #chatbot-form{display:flex;padding:12px;background:#fff;}
-          #chatbot-input{flex:1;padding:10px;border-radius:20px;border:none;outline:none;}
-          #chatbot-send-btn{background:none;border:none;cursor:pointer;}
+        body{font-family:'Poppins',sans-serif;}
+         #chatbot-float-btn{position:fixed;bottom:25px;right:25px;width:60px;height:60px;border-radius:50%;background:#4D98E2;color:#fff;border:none;font-size:26px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;transition:0.3s;z-index:1000;} 
+         #chatbot-float-btn:hover{transform:scale(1.1);}
+        #chatbot-container{position:fixed;bottom:100px;right:25px;width:100%;max-width:420px;height:75vh;background:#F5F5F6;border-radius:20px;box-shadow:0 2px 14px rgba(0,0,0,0.15);display:none;flex-direction:column;overflow:hidden;z-index:999;}
+         #chatbot-header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;} 
+         #chatbot-close-btn { background: none; border: none; color: var(--text-color-dark); font-size: 1.2em; cursor: pointer; opacity: 0.8; }
+        #chatbot-close-btn:hover { opacity: 1; } 
+        #chatbot-messages { flex-grow: 1; padding: 20px; overflow-y: auto; background: var(--background-body); }
+         .chatbot-message-group { display: flex; flex-direction: column; margin-bottom: 12px; max-width: 100%; }
+          .chatbot-message-group.me { align-self: flex-end; align-items: flex-end; } 
+          .chatbot-message-group.other { align-self: flex-start; align-items: flex-start; } 
+          .chatbot-message-bubble { padding: 12px 18px; border-radius: 20px; margin-bottom: 3px; font-size: 0.95em; box-shadow: 0 2px 6px rgba(0,0,0,0.08); } 
+          .chatbot-message-group.me .chatbot-message-bubble { background: linear-gradient(135deg, var(--message-me-light), var(--message-me-bg)); color: white; border-bottom-right-radius: 8px; } 
+          .chatbot-message-group.other .chatbot-message-bubble { background: var(--message-bg-other); color: var(--text-color-dark); border-bottom-left-radius: 8px; } 
+          .chatbot-timestamp { font-size: 0.75em; color: #99aab5; margin-top: 2px; } 
+          #chatbot-form { display: flex; align-items: center; padding: 12px 16px; background: var(--background-chat); gap: 10px; }
+           #chatbot-input { flex: 1; border: none ; border-radius: 20px; padding: 15px 15px; font-size: 1em; outline: none; } 
+           #chatbot-send-btn { padding: 10px 15px; border-radius: 25px; border: none; font-weight: 600; cursor: pointer; pointer-events: none; background: none; }
+            #chatbot-send-btn.active { opacity: 1; pointer-events: auto; } 
+            .Powered-by-Pair { color:#85888E; text-align: center; font-weight: 200; } 
+            .Powered-by-Pair span { color: #4D98E2; } ;
         `;
         document.head.appendChild(css);
 
         // Handle logic
-        const floatBtn = document.getElementById('chatbot-float-btn');
-        const closeBtn = document.getElementById('chatbot-close-btn');
-        const chatContainer = document.getElementById('chatbot-container');
-        const messages = document.getElementById('chatbot-messages');
-        const input = document.getElementById('chatbot-input');
-        const form = document.getElementById('chatbot-form');
+        const floatBtn = document.getElementById("chatbot-float-btn");
+        const closeBtn = document.getElementById("chatbot-close-btn");
+        const chatContainer = document.getElementById("chatbot-container");
+        const messages = document.getElementById("chatbot-messages");
+        const input = document.getElementById("chatbot-input");
+        const form = document.getElementById("chatbot-form");
 
-        floatBtn.addEventListener('click', () => {
-          chatContainer.style.display = 'flex';
-          floatBtn.style.display = 'none';
+        floatBtn.addEventListener("click", () => {
+          chatContainer.style.display = "flex";
+          floatBtn.style.display = "none";
         });
 
-        closeBtn.addEventListener('click', () => {
-          chatContainer.style.display = 'none';
-          floatBtn.style.display = 'flex';
+        closeBtn.addEventListener("click", () => {
+          chatContainer.style.display = "none";
+          floatBtn.style.display = "flex";
         });
 
         const appendMessage = (text, sender) => {
-          const msg = document.createElement('div');
+          const msg = document.createElement("div");
           msg.textContent = text;
-          msg.className = sender === 'me' ? 'msg-me' : 'msg-bot';
+          msg.className = sender === "me" ? "msg-me" : "msg-bot";
           messages.appendChild(msg);
           messages.scrollTop = messages.scrollHeight;
         };
 
-        form.addEventListener('submit', (e) => {
+        form.addEventListener("submit", (e) => {
           e.preventDefault();
           const text = input.value.trim();
           if (!text) return;
-          appendMessage(text, 'me');
-          input.value = '';
-          setTimeout(() => appendMessage("You said: " + text, 'bot'), 1000);
+          appendMessage(text, "me");
+          input.value = "";
+          setTimeout(() => appendMessage("You said: " + text, "bot"), 1000);
         });
       });
     },
