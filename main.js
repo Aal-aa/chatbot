@@ -1,6 +1,13 @@
 (function (window, document) {
   const chatbotSDK = {
     run: function (config) {
+      // ---- Add Font Awesome ----
+      const faLink = document.createElement("link");
+      faLink.rel = "stylesheet";
+      faLink.href =
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css";
+      document.head.appendChild(faLink);
+
       // ---- Create Chatbot Container ----
       const style = document.createElement("style");
       style.innerHTML = `
